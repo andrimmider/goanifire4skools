@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Maker - Go!AniFire</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="js/ruffle/ruffle.js"></script>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <div class="loading-content">
+            <img src="themelistfiles/Comedy_World.jpg" alt="Loading" class="loading-preview">
+            <h2>Preparing the Video Maker...</h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
+            <p id="loading-status">Fetching assets...</p>
+        </div>
+    </div>
+
+    <div id="lvm-player"></div>
+
+    <script>
+        // Ruffle Configuration
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            "splashScreen": false, // Hides the Ruffle logo
+            "autoplay": "on",
+            "unmuteOverlay": "hidden"
+        };
+
+        window.addEventListener("load", (event) => {
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+            const container = document.getElementById("lvm-player");
+            container.appendChild(player);
+
+            // Get theme from URL (e.g., videomaker.html?tray=comedy)
+            const params = new URLSearchParams(window.location.search);
+            const themeId = params.get('tray') || 'comedy';
+
+            player.load({
+                url: "static/go_full.swf",
+                flashvars: {
+                    "apiserver": "/",
+                    "storePath": "/static/store/<store>",
+                    "clientThemePath": "/static/adms/<client_theme>",
+                    "userId": "1",
+                    "ut": "30",
+                    "tray": themeId,
+                    "siteId": "go",
+                    "appCode": "go"
+                }
+            });
+
+            // Remove loading screen after a simulated delay (3 seconds)
+            setTimeout(() => {
+                document.getElementById("loading-screen").style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById("loading-screen").style.display = "none";
+                }, 500);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
