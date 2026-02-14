@@ -1,67 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Video Maker - Go!AniFire</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="js/ruffle/ruffle.js"></script>
-</head>
-<body>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" href="/favicon.ico" type="image/png" />
+		<title>Video Editor - Wrapper Offline Remastered Users Only! Your VideoList V3</title>
+		<link rel="stylesheet" type="text/css" href="/pages/css/modern-normalize.css">
+		<link rel="stylesheet" type="text/css" href="/pages/css/global.css">
+		<link rel="stylesheet" type="text/css" href="/pages/css/flash.css">
+		<link rel="stylesheet" type="text/css" href="/pages/css/importer.css">
+		<style>
+			body {
+				background: #eee;
+			}
 
-    <div id="loading-screen">
-        <div class="loading-content">
-            <img src="themelistfiles/Comedy_World.jpg" alt="Loading" class="loading-preview">
-            <h2>Preparing the Video Maker...</h2>
-            <div class="progress-container">
-                <div class="progress-bar" id="myBar"></div>
-            </div>
-            <p id="loading-status">Fetching assets...</p>
-        </div>
-    </div>
+		</style>
+		<script src="/pages/js/jquery.js"></script>
+		<script src="/pages/js/filesize.js"></script>
+		<script src="/pages/js/global.js"></script>
+		<script>
+			const STORE_URL = "/store/3a981f5cb2739137";
+			const CLIENT_URL = "/static/ad44370a650793d9";
+			const IS_STUDIO = true;
 
-    <div id="lvm-player"></div>
+		</script>
+	</head>
+        <body>
+		<header>
+	<a href="/">
+		<h1 style="margin:0"><img id="logo" src="/pages/img/logo.svg" alt="Wrapper: Offline"/></h1>
+	</a>
+	<nav id="headbuttons">
+                <a href="/settings" class="button_small">SETTINGS</a>
+		<a class="button_small" onclick="document.getElementById('file').click()">UPLOAD A CHAR</a>
+		<a href="/create?filter=cc" class="button_small">CREATE A CHARACTER</a>
+		<a href="/create" class="button_big">MAKE A VIDEO</a>
+	</nav>
+</header>
 
-    <script>
-        // Ruffle Configuration
-        window.RufflePlayer = window.RufflePlayer || {};
-        window.RufflePlayer.config = {
-            "splashScreen": false, // Hides the Ruffle logo
-            "autoplay": "on",
-            "unmuteOverlay": "hidden"
-        };
+<form enctype='multipart/form-data' action='/api/char/upload' method='post'>
+	<input id='file' type="file" onchange="this.form.submit()" name='import' />
+</form>
 
-        window.addEventListener("load", (event) => {
-            const ruffle = window.RufflePlayer.newest();
-            const player = ruffle.createPlayer();
-            const container = document.getElementById("lvm-player");
-            container.appendChild(player);
+	<body style="margin:0px">
+		<main>
+			<nav id="importer">
+				<nav id="import_head">
+					<button id="import-toggle" onclick="document.getElementById('importer-files').click()" class="import-button">UPLOAD FILES</button>
+					<h3 class="close-button" onclick="hideImporter()">✖</h3>
+					<form>
+						<input id="importer-files" type="file" name="file" title="Upload Files" accept=".mp3,.wav,.ogg,.wma,.swf,.gif,.png,.jpg,.mp4" style="display:none" />
+					</form>
+				</nav>
+				<div id="importer-queue"></div>
+			</nav>
+			<object id="obj" data="/animation/414827163ad4eb60/go_full.swf" type="application/x-shockwave-flash" width="100%" height="100%"><param name="flashvars" value="appCode=go&collab=0&ctc=go&goteam_draft_only=1&isLogin=Y&isWide=1&lid=0&nextUrl=%2F&page=&retut=1&siteId=go&tray=custom&tlang=en_US&ut=60&apiserver=http%3A%2F%2Flocalhost%3A4343%2F&storePath=%2Fstore%2F3a981f5cb2739137%2F%3Cstore%3E&clientThemePath=%2Fstatic%2Fad44370a650793d9%2F%3Cclient_theme%3E"> <param name="allowScriptAccess" value="always"></object>		</main>
+		<div id="previewer" style="display:none">
+			<div id="preview-inside">
+				<h2 id="preview-video">Preview Video</h2>
+			
+				<object id="preview_player" data="/animation/414827163ad4eb60/player.swf" type="application/x-shockwave-flash"
+					width="640" height="360">
+					<param name="flashvars" />
+					<param name="allowScriptAccess" value="always" />
+					<param name="allowFullScreen" value="true" />
+				</object>
+				<div class="buttons">
+					<button class="preview-button edit" type="button" onclick="hidePreviewer();">Back to editing</button>
+					<button class="preview-button save" type="button" onclick="publishStudio();">Save Now</button>
+				</div>
 
-            // Get theme from URL (e.g., videomaker.html?tray=comedy)
-            const params = new URLSearchParams(window.location.search);
-            const themeId = params.get('tray') || 'comedy';
+				<a class="close-button" onclick="hidePreviewer()">×</a>
+			</div>
+		</div>
+	</body>
 
-            player.load({
-                url: "static/go_full.swf",
-                flashvars: {
-                    "apiserver": "/",
-                    "storePath": "/static/store/<store>",
-                    "clientThemePath": "/static/adms/<client_theme>",
-                    "userId": "1",
-                    "ut": "30",
-                    "tray": themeId,
-                    "siteId": "go",
-                    "appCode": "go"
-                }
-            });
-
-            // Remove loading screen after a simulated delay (3 seconds)
-            setTimeout(() => {
-                document.getElementById("loading-screen").style.opacity = "0";
-                setTimeout(() => {
-                    document.getElementById("loading-screen").style.display = "none";
-                }, 500);
-            }, 3000);
-        });
-    </script>
-</body>
+	<script src="/pages/js/importer.js"></script>
+	<script src="/pages/js/studio.js"></script>
 </html>
