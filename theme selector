@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Create - Legacy Beta 2023 Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            background: #f4f4f4; 
+            font-family: "Lato", sans-serif; 
+            margin: 0; 
+            color: #333; 
+        }
+        header { 
+            background: #0081c2; 
+            padding: 10px 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 4px solid #005a87;
+        }
+        .logo-text { color: white; font-weight: bold; font-size: 24px; text-decoration: none; }
+        .button_big { 
+            background: #ff6600; 
+            color: white; 
+            padding: 10px 20px; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            box-shadow: 0 2px 0 #a34100;
+        }
+        main { padding: 40px; max-width: 1200px; margin: auto; }
+        h1 { border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 30px; }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .theme {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding-bottom: 10px;
+        }
+        .theme:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #0081c2;
+        }
+        .theme img { width: 100%; height: auto; display: block; margin-bottom: 10px; }
+        .theme a { text-decoration: none; color: #333; font-weight: bold; font-size: 14px; }
+        
+        footer { background: #fff; border-top: 1px solid #ddd; padding: 20px; margin-top: 50px; font-size: 12px; color: #777; }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/" class="logo-text">LEGACY BETA</a>
+        <nav id="headbuttons">
+            <a href="/videomaker" class="button_big">MAKE A VIDEO</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Select a Theme</h1>
+        <div class="theme-grid">
+            <div class="theme" data-has-cc>
+                <a href="#" onclick="customRedirect('family')">
+                    <img src="/pages/img/themes/custom.jpg" alt="Comedy World">
+                    Comedy World
+                </a>
+            </div>
+
+            <div class="theme" data-has-cc>
+                <a href="#" onclick="redirect('action', 'cc2')">
+                    <img src="/pages/img/themes/action.jpg" alt="Lil' Peepz">
+                    Lil' Peepz
+                </a>
+            </div>
+
+            <div class="theme">
+                <a href="#" onclick="redirect('sticklybiz')">
+                    <img src="/pages/img/themes/sticklybiz.jpg" alt="Stickly Business">
+                    Stickly Business
+                </a>
+            </div>
+
+            <div class="theme">
+                <a href="#" onclick="redirect('retro')">
+                    <img src="/pages/img/themes/retro.jpg" alt="Cartoon Classics">
+                    Cartoon Classics
+                </a>
+            </div>
+
+            <div class="theme">
+                <a href="#" onclick="redirect('politics2')">
+                    <img src="/pages/img/themes/politics2.jpg" alt="White Houserz">
+                    White Houserz
+                </a>
+            </div>
+
+            <div class="theme" data-has-cc>
+                <a href="#" onclick="redirect('anime', 'anime')">
+                    <img src="/pages/img/themes/anime.jpg" alt="Anime">
+                    Anime
+                </a>
+            </div>
+
+            <div class="theme">
+                <a href="#" onclick="redirect('monstermsh')">
+                    <img src="/pages/img/themes/monstermsh.png" alt="Monsters Mayhem">
+                    Monsters Mayhem
+                </a>
+            </div>
+
+            <div class="theme">
+                <a href="#" onclick="redirect('christmas')">
+                    <img src="/pages/img/themes/christmas.png" alt="Holiday & Seasonal">
+                    Holiday & Seasonal
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Legacy Beta v2.0.0 | Voices: Paul, Geraint, Joey, Ivy</p>
+    </footer>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const filter = params.get("filter") || "vl";
+
+        function customRedirect(themeId) {
+            if (filter == "cc" && themeId == 'family') {
+                window.location.href = "/cc_selector"; 
+            } else {
+                redirect(themeId);
+            }
+        }
+
+        function redirect(tId, ccId = false) {
+            if (filter == "cc") {
+                // If it's a CC request and we have a specific CC ID, use it
+                window.location.href = `/cc_browser?themeId=${ccId || tId}`;
+                return;
+            }
+            window.location.href = `./go_full?tray=${tId}`;
+        }
+    </script>
+</body>
+</html>
